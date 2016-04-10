@@ -1,0 +1,3 @@
+- name: installing haproxy
+  apt: name=haproxy  state=present
+  sudo: yes

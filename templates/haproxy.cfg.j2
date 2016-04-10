@@ -1,0 +1,22 @@
+global
+	log 127.0.0.1	local0 notice
+	chroot /var/lib/haproxy
+	stats timeout 30s
+	user haproxy
+	group haproxy
+	daemon
+    stats socket /var/lib/haproxy/stats mode 777
+
+
+listen MySQL 0.0.0.0:3306
+    timeout connect 5s
+    timeout client 5s
+    timeout server 2s
+    mode tcp
+    option tcpka
+    server Primary   {{mysql_master}}:3306 weight 1   inter 1s fall 3 rise 99999999 check port 3306
+    {% for srv in mysql_slave_list %}
+    {% if srv != "" %}
+    server Secondary {{ srv }}:3306 weight {{100+loop.index}} inter 1s fall 3 rise 99999999 check port 3306 backup
+    {% endif %}
+    {% endfor %}

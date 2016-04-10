@@ -1,0 +1,10 @@
+---
+
+mysql_port: 3306
+
+mysql_master: ""
+mysql_slaves_list: ""
+haproxy_conf_file: "/etc/haproxy/haproxy.cfg"
+
+#mysql_pswd_folder: "$HOME/.mysql/pswd/"
+
